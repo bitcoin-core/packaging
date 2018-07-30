@@ -4,12 +4,6 @@ bitcoin (0.16.0-trusty2) trusty; urgency=medium
 
  -- Thomas M Steenholdt <tsteenholdt@cascadetechnologypartners.com>  Wed, 18 Apr 2018 16:40:00 -0200
 
-bitcoin (0.16.0-xenial1) xenial; urgency=medium
-
-  * Mark for xenial.
-
- -- Matt Corallo (BlueMatt) <matt@mattcorallo.com>  Mon, 05 Mar 2018 11:20:00 -0500
-
 bitcoin (0.16.0-trusty1) trusty; urgency=medium
 
   * New upstream release.
