@@ -1,3 +1,21 @@
+bitcoin (0.16.2-trusty3) trusty; urgency=medium
+
+  * Ignore errors creating the bitcoin user in package configure.
+
+ -- Matt Corallo (BlueMatt) <matt@mattcorallo.com>  Tue, 14 Aug 2018 09:36:00 -0400
+
+bitcoin (0.16.2-trusty2) trusty; urgency=medium
+
+  * Use qt5 on bionic.
+
+ -- Matt Corallo (BlueMatt) <matt@mattcorallo.com>  Mon, 30 Jul 2018 16:46:00 -0400
+
+bitcoin (0.16.2-trusty1) trusty; urgency=medium
+
+  * New upstream release.
+
+ -- Matt Corallo (BlueMatt) <matt@mattcorallo.com>  Mon, 30 Jul 2018 12:34:00 -0400
+
 bitcoin (0.16.0-trusty2) trusty; urgency=medium
 
   * Add systemd service to bitcoind
