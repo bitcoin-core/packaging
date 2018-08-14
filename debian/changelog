@@ -1,3 +1,9 @@
+bitcoin (0.16.2-trusty3) trusty; urgency=medium
+
+  * Ignore errors creating the bitcoin user in package configure.
+
+ -- Matt Corallo (BlueMatt) <matt@mattcorallo.com>  Tue, 14 Aug 2018 09:36:00 -0400
+
 bitcoin (0.16.2-trusty2) trusty; urgency=medium
 
   * Use qt5 on bionic.

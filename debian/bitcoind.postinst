@@ -8,10 +8,11 @@ BCUSER="bitcoin"
 BCHOME="/var/lib/bitcoin"
 
 if [ "$1" = "configure" ]; then
-
 	# Add bitcoin user/group - this will gracefully abort if the user already exists.
 	# A homedir is never created.
-	adduser --system --home "${BCHOME}" --no-create-home --group "${BCUSER}"
+	set -e
+	adduser --system --home "${BCHOME}" --no-create-home --group "${BCUSER}" 2>/dev/null
+	set -e
 
 	# If the homedir does not already exist, create it with proper
 	# ownership and permissions.
@@ -19,7 +20,6 @@ if [ "$1" = "configure" ]; then
 		mkdir -m 0750 -p "${BCHOME}"
 		chown "${BCUSER}:${BCUSER}" "${BCHOME}"
 	fi
-
 fi
 
 #DEBHELPER#
