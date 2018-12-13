@@ -1,5 +1,5 @@
 name: bitcoin
-version: master
+version: 0.17.0.1
 summary:   peer-to-peer network based digital currency
 description: |
   Bitcoin is a free open source peer-to-peer electronic cash system that
@@ -8,7 +8,7 @@ description: |
   transact directly with each other, with the help of a P2P network to
   check for double-spending.
 
-grade: devel
+grade: stable
 confinement: strict
 
 apps:
@@ -28,7 +28,7 @@ parts:
   bitcoin:
     source: https://github.com/bitcoin/bitcoin
     source-type: git
-    source-tag: master
+    source-tag: v0.17.0.1
     plugin: autotools
     # XXX We don't want to copy the full blockchain every time that the snap is
     # updated, but there's no way to define a default data dir in bitcoin-qt.
@@ -70,7 +70,8 @@ parts:
       - desktop-qt5
       - patches
   berkeleydb:
-    source: http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz
+    source: http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz
+    source-checksum: sha256/12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef 
     plugin: nil
     override-build: |
       cd build_unix
