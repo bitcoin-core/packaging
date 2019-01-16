@@ -1,0 +1,89 @@
+name: bitcoin
+version: master
+summary:   peer-to-peer network based digital currency
+description: |
+  Bitcoin is a free open source peer-to-peer electronic cash system that
+  is completely decentralized, without the need for a central server or
+  trusted parties.  Users hold the crypto keys to their own money and
+  transact directly with each other, with the help of a P2P network to
+  check for double-spending.
+
+grade: devel
+confinement: strict
+
+apps:
+  daemon:
+    command: bitcoind
+    plugs: [network, network-bind]
+    environment:
+      XDG_DATA_DIRS: $SNAP_USER_DATA:$SNAP/usr/share:$XDG_DATA_DIRS
+  qt:
+    command: desktop-launch bitcoin-qt
+    plugs: [network, network-bind, unity7]
+    desktop: bitcoin.desktop
+  cli:
+    command: bitcoin-cli
+
+parts:
+  bitcoin:
+    source: https://github.com/bitcoin/bitcoin
+    source-type: git
+    source-tag: master
+    plugin: autotools
+    # XXX We don't want to copy the full blockchain every time that the snap is
+    # updated, but there's no way to define a default data dir in bitcoin-qt.
+    # Also, it would be better if we could split the wallet from the blockchain
+    # https://github.com/bitcoin/bitcoin/issues/3214
+    # -- elopio-20170308
+    override-build: | 
+      git apply $SNAPCRAFT_STAGE/default_data_dir.patch
+      snapcraftctl build
+    build-packages:
+      - g++
+      - pkg-config
+      - libssl-dev
+      - libevent-dev
+      - bsdmainutils
+      # Boost.
+      - libboost-system-dev
+      - libboost-filesystem-dev
+      - libboost-chrono-dev
+      - libboost-program-options-dev
+      - libboost-test-dev
+      - libboost-thread-dev
+      # Optional.
+      - libminiupnpc-dev
+      - libzmq3-dev
+      # GUI.
+      - libqt5gui5
+      - libqt5core5a
+      - libqt5dbus5
+      - qttools5-dev
+      - qttools5-dev-tools
+      - libprotobuf-dev
+      - protobuf-compiler
+      # Optional.
+      - libqrencode-dev
+    stage-packages: [ca-certificates]
+    after:
+      - berkeleydb
+      - desktop-qt5
+      - patches
+  berkeleydb:
+    source: http://download.oracle.com/berkeley-db/db-4.8.30.tar.gz
+    plugin: nil
+    override-build: |
+      cd build_unix
+      ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$SNAPCRAFT_PART_INSTALL
+      snapcraftctl build
+      make install
+    prime:
+      - -*
+  patches:
+    source: snap/patches
+    plugin: dump
+    prime:
+      - -*
+  desktop:
+    source: snap/gui
+    plugin: dump

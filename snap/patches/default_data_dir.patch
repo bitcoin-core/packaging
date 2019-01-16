@@ -1,0 +1,26 @@
+diff --git a/src/qt/guiutil.cpp b/src/qt/guiutil.cpp
+index f8f031041..704ebf264 100644
+--- a/src/qt/guiutil.cpp
++++ b/src/qt/guiutil.cpp
+@@ -615,7 +615,7 @@ fs::path static GetAutostartDir()
+ {
+     char* pszConfigHome = getenv("XDG_CONFIG_HOME");
+     if (pszConfigHome) return fs::path(pszConfigHome) / "autostart";
+-    char* pszHome = getenv("HOME");
++    char* pszHome = getenv("SNAP_USER_COMMON");
+     if (pszHome) return fs::path(pszHome) / ".config" / "autostart";
+     return fs::path();
+ }
+diff --git a/src/util.cpp b/src/util.cpp
+index a391c5e85..79cccc35a 100644
+--- a/src/util.cpp
++++ b/src/util.cpp
+@@ -713,7 +713,7 @@ fs::path GetDefaultDataDir()
+     return GetSpecialFolderPath(CSIDL_APPDATA) / "Bitcoin";
+ #else
+     fs::path pathRet;
+-    char* pszHome = getenv("HOME");
++    char* pszHome = getenv("SNAP_USER_COMMON");
+     if (pszHome == nullptr || strlen(pszHome) == 0)
+         pathRet = fs::path("/");
+     else
