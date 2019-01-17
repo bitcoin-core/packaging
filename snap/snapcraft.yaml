@@ -20,7 +20,6 @@ apps:
   qt:
     command: desktop-launch bitcoin-qt
     plugs: [network, network-bind, desktop, x11]
-    desktop: bitcoin.desktop
   cli:
     command: bitcoin-cli
 
@@ -34,6 +33,7 @@ parts:
       git apply $SNAPCRAFT_STAGE/default_data_dir.patch
       snapcraftctl build
       make check
+      install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps share/pixmaps/bitcoin128.png
     build-packages:
       - g++
       - pkg-config
@@ -81,6 +81,3 @@ parts:
     plugin: dump
     prime:
       - -*
-  desktop:
-    source: snap/gui
-    plugin: dump
