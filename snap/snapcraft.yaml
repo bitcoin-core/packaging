@@ -30,11 +30,6 @@ parts:
     source-type: git
     source-tag: v0.17.1
     plugin: autotools
-    # XXX We don't want to copy the full blockchain every time that the snap is
-    # updated, but there's no way to define a default data dir in bitcoin-qt.
-    # Also, it would be better if we could split the wallet from the blockchain
-    # https://github.com/bitcoin/bitcoin/issues/3214
-    # -- elopio-20170308
     override-build: | 
       git apply $SNAPCRAFT_STAGE/default_data_dir.patch
       snapcraftctl build
