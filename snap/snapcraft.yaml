@@ -1,5 +1,5 @@
 name: bitcoin
-version: 0.17.0.1
+version: 0.17.1
 summary:   peer-to-peer network based digital currency
 description: |
   Bitcoin is a free open source peer-to-peer electronic cash system that
@@ -28,7 +28,7 @@ parts:
   bitcoin:
     source: https://github.com/bitcoin/bitcoin
     source-type: git
-    source-tag: v0.17.0.1
+    source-tag: v0.17.1
     plugin: autotools
     # XXX We don't want to copy the full blockchain every time that the snap is
     # updated, but there's no way to define a default data dir in bitcoin-qt.
