@@ -33,6 +33,7 @@ parts:
     override-build: | 
       git apply $SNAPCRAFT_STAGE/default_data_dir.patch
       snapcraftctl build
+      make check
     build-packages:
       - g++
       - pkg-config
