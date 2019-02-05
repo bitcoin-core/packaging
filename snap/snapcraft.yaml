@@ -22,6 +22,7 @@ apps:
     plugs: [network, network-bind, desktop, x11]
   cli:
     command: bitcoin-cli
+    plugs: [network]
 
 parts:
   bitcoin:
