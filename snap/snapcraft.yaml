@@ -16,13 +16,22 @@ apps:
     command: bitcoind
     plugs: [network, network-bind]
     environment:
-      XDG_DATA_DIRS: $SNAP_USER_DATA:$SNAP/usr/share:$XDG_DATA_DIRS
+      # Override HOME so the bitcoin datadir is located at
+      # ~/snap/bitcoin/common/.bitcoin instead of
+      # ~/snap/bitcoin/current/.bitcoin, and each new version of the bitcoin
+      # snap won't have a different data directory:
+      # https://docs.snapcraft.io/environment-variables/7983
+      HOME: $SNAP_USER_COMMON
   qt:
     command: desktop-launch bitcoin-qt
     plugs: [network, network-bind, desktop, x11]
+    environment:
+      HOME: $SNAP_USER_COMMON
   cli:
     command: bitcoin-cli
     plugs: [network]
+    environment:
+      HOME: $SNAP_USER_COMMON
 
 parts:
   bitcoin:
@@ -31,7 +40,6 @@ parts:
     source-tag: v0.17.1
     plugin: autotools
     override-build: | 
-      git apply $SNAPCRAFT_STAGE/default_data_dir.patch
       snapcraftctl build
       make check
       install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps share/pixmaps/bitcoin128.png
@@ -78,7 +86,6 @@ parts:
     after:
       - berkeleydb
       - desktop-qt5
-      - patches
   berkeleydb:
     source: http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz
     source-checksum: sha256/12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef 
@@ -88,10 +95,5 @@ parts:
       ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$SNAPCRAFT_PART_INSTALL
       snapcraftctl build
       make install
-    prime:
-      - -*
-  patches:
-    source: snap/patches
-    plugin: dump
     prime:
       - -*
