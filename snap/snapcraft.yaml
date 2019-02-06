@@ -1,0 +1,99 @@
+name: bitcoin
+version: 0.17.1
+summary:   peer-to-peer network based digital currency
+description: |
+  Bitcoin is a free open source peer-to-peer electronic cash system that
+  is completely decentralized, without the need for a central server or
+  trusted parties.  Users hold the crypto keys to their own money and
+  transact directly with each other, with the help of a P2P network to
+  check for double-spending.
+
+grade: stable
+confinement: strict
+
+apps:
+  daemon:
+    command: bitcoind
+    plugs: [network, network-bind]
+    environment:
+      # Override HOME so the bitcoin datadir is located at
+      # ~/snap/bitcoin/common/.bitcoin instead of
+      # ~/snap/bitcoin/current/.bitcoin, and each new version of the bitcoin
+      # snap won't have a different data directory:
+      # https://docs.snapcraft.io/environment-variables/7983
+      HOME: $SNAP_USER_COMMON
+  qt:
+    command: desktop-launch bitcoin-qt
+    plugs: [network, network-bind, desktop, x11]
+    environment:
+      HOME: $SNAP_USER_COMMON
+  cli:
+    command: bitcoin-cli
+    plugs: [network]
+    environment:
+      HOME: $SNAP_USER_COMMON
+
+parts:
+  bitcoin:
+    source: https://github.com/bitcoin/bitcoin
+    source-type: git
+    source-tag: v0.17.1
+    plugin: autotools
+    override-build: | 
+      snapcraftctl build
+      make check
+      install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps share/pixmaps/bitcoin128.png
+    build-packages:
+      - g++
+      - pkg-config
+      - libssl-dev
+      - libevent-dev
+      - bsdmainutils
+      # Boost.
+      - libboost-system-dev
+      - libboost-filesystem-dev
+      - libboost-chrono-dev
+      - libboost-program-options-dev
+      - libboost-test-dev
+      - libboost-thread-dev
+      # Optional.
+      - libminiupnpc-dev
+      - libzmq3-dev
+      # GUI.
+      - libqt5gui5
+      - libqt5core5a
+      - libqt5dbus5
+      - qttools5-dev
+      - qttools5-dev-tools
+      - libprotobuf-dev
+      - protobuf-compiler
+      # Optional.
+      - libqrencode-dev
+    stage-packages:
+      - ca-certificates
+      - libboost-chrono1.58.0
+      - libboost-test1.58.0
+      - libboost-thread1.58.0
+      - libevent-2.0-5
+      - libevent-core-2.0-5
+      - libevent-pthreads-2.0-5
+      - libminiupnpc10
+      - libprotobuf9v5
+      - libqrencode3
+      - libqt5test5
+      - libsodium18
+      - libzmq5
+    after:
+      - berkeleydb
+      - desktop-qt5
+  berkeleydb:
+    source: http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz
+    source-checksum: sha256/12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef 
+    plugin: nil
+    override-build: |
+      cd build_unix
+      ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$SNAPCRAFT_PART_INSTALL
+      snapcraftctl build
+      make install
+    prime:
+      - -*
