@@ -11,6 +11,8 @@ description: |
 grade: stable
 confinement: strict
 
+base: core18
+
 apps:
   daemon:
     command: bitcoind
@@ -34,7 +36,7 @@ apps:
       HOME: $SNAP_USER_COMMON
 
 parts:
-  bitcoin:
+  bitcoin-core:
     source: https://github.com/bitcoin/bitcoin
     source-type: git
     source-tag: v0.17.1
@@ -71,17 +73,17 @@ parts:
       - libqrencode-dev
     stage-packages:
       - ca-certificates
-      - libboost-chrono1.58.0
-      - libboost-test1.58.0
-      - libboost-thread1.58.0
-      - libevent-2.0-5
-      - libevent-core-2.0-5
-      - libevent-pthreads-2.0-5
+      - libboost-chrono1.65.1
+      - libboost-test1.65.1
+      - libboost-thread1.65.1
+      - libevent-2.1-6
+      - libevent-core-2.1-6
+      - libevent-pthreads-2.1-6
       - libminiupnpc10
-      - libprotobuf9v5
+      - libprotobuf10
       - libqrencode3
       - libqt5test5
-      - libsodium18
+      - libsodium23
       - libzmq5
     after:
       - berkeleydb
