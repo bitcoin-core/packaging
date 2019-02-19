@@ -1,4 +1,4 @@
-name: bitcoin
+name: bitcoin-core
 base: core18
 version: 0.17.1
 summary:   peer-to-peer network based digital currency
@@ -35,7 +35,7 @@ apps:
       HOME: $SNAP_USER_COMMON
 
 parts:
-  bitcoin:
+  bitcoin-core:
     source: https://github.com/bitcoin/bitcoin
     source-type: git
     source-tag: v0.17.1
