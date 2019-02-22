@@ -35,65 +35,26 @@ apps:
 
 parts:
   bitcoin-core:
-    source: https://github.com/bitcoin/bitcoin
-    source-type: git
-    source-tag: v0.17.1
-    plugin: autotools
-    override-build: | 
-      snapcraftctl build
-      make check
-      install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps share/pixmaps/bitcoin128.png
-    build-packages:
-      - g++
-      - pkg-config
-      - libssl-dev
-      - libevent-dev
-      - bsdmainutils
-      # Boost.
-      - libboost-system-dev
-      - libboost-filesystem-dev
-      - libboost-chrono-dev
-      - libboost-program-options-dev
-      - libboost-test-dev
-      - libboost-thread-dev
-      # Optional.
-      - libminiupnpc-dev
-      - libzmq3-dev
-      # GUI.
-      - libqt5gui5
-      - libqt5core5a
-      - libqt5dbus5
-      - qttools5-dev
-      - qttools5-dev-tools
-      - libprotobuf-dev
-      - protobuf-compiler
-      # Optional.
-      - libqrencode-dev
-    stage-packages:
-      - ca-certificates
-      - libboost-chrono1.58.0
-      - libboost-test1.58.0
-      - libboost-thread1.58.0
-      - libevent-2.0-5
-      - libevent-core-2.0-5
-      - libevent-pthreads-2.0-5
-      - libminiupnpc10
-      - libprotobuf9v5
-      - libqrencode3
-      - libqt5test5
-      - libsodium18
-      - libzmq5
-    after:
-      - berkeleydb
-      - desktop-qt5
-  berkeleydb:
-    source: http://download.oracle.com/berkeley-db/db-4.8.30.NC.tar.gz
-    source-checksum: sha256/12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef 
     plugin: nil
-    override-build: |
-      cd build_unix
-      ../dist/configure --enable-cxx --disable-shared --with-pic --prefix=$SNAPCRAFT_PART_INSTALL
-      snapcraftctl build
-      make install
-    prime:
-      - -*
+    override-build: | 
+      env | grep SNAP
+      wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/SHA256SUMS.asc
+      wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
+      wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
+      gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 01EA5486DE18A882D4C2684590C8019E36C2E964
+      gpg --verify SHA256SUMS.asc
+      echo "d0a385d05a89c611caa7fea6ae561e01249f2df51212a267fb65b361d49365f7  SHA256SUMS.asc" | sha256sum --check
+      sha256sum --ignore-missing --check SHA256SUMS.asc
+      tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
+      tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
+      echo "Running tests ..."
+      bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/test_bitcoin
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoind
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-qt
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-cli
+      wget https://raw.githubusercontent.com/bitcoin/bitcoin/v${SNAPCRAFT_PROJECT_VERSION}/share/pixmaps/bitcoin128.png
+      install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps bitcoin128.png
+    build-packages:
+      - wget
+    after:
+      - desktop-qt5
