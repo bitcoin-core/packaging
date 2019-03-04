@@ -1,5 +1,5 @@
 name: bitcoin-core
-version: 0.17.1
+version: 0.18.0rc1
 summary:   peer-to-peer network based digital currency
 description: |
   Bitcoin is a free open source peer-to-peer electronic cash system that
@@ -43,7 +43,7 @@ parts:
       wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 01EA5486DE18A882D4C2684590C8019E36C2E964
       gpg --verify SHA256SUMS.asc
-      echo "d0a385d05a89c611caa7fea6ae561e01249f2df51212a267fb65b361d49365f7  SHA256SUMS.asc" | sha256sum --check
+      echo "0e8a37fb5d3561fcd34c134374791a62badd2f57cc777b1371a82064ef4abe2e  SHA256SUMS.asc" | sha256sum --check
       sha256sum --ignore-missing --check SHA256SUMS.asc
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
