@@ -56,5 +56,7 @@ parts:
       install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps bitcoin128.png
     build-packages:
       - wget
+    stage-packages:
+      - qtwayland5
     after:
       - desktop-qt5
