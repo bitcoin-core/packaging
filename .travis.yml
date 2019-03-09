@@ -1,0 +1,16 @@
+dist: xenial
+os: linux
+language: minimal
+env:
+  global:
+    - DOCKER_NAME_TAG=ubuntu:16.04
+    - DOCKER_PACKAGES="snapcraft"
+install:
+  - travis_retry docker pull "$DOCKER_NAME_TAG"
+  - DOCKER_ID=$(docker run -idt --mount type=bind,src=$TRAVIS_BUILD_DIR,dst=$TRAVIS_BUILD_DIR -w $TRAVIS_BUILD_DIR $DOCKER_NAME_TAG)
+  - DOCKER_EXEC () { docker exec $DOCKER_ID bash -c "cd $PWD && $*"; }
+  - travis_retry DOCKER_EXEC apt-get update
+  - travis_retry DOCKER_EXEC apt-get install --no-install-recommends --no-upgrade -qq $DOCKER_PACKAGES
+  - travis_retry DOCKER_EXEC snapcraft pull
+script:
+  - travis_retry DOCKER_EXEC snapcraft

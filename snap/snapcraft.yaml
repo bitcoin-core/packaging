@@ -27,6 +27,7 @@ apps:
     plugs: [network, network-bind, desktop, x11]
     environment:
       HOME: $SNAP_USER_COMMON
+      DISABLE_WAYLAND: 1
   cli:
     command: bitcoin-cli
     plugs: [network]
