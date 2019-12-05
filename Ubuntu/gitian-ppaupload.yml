@@ -1,0 +1,52 @@
+---
+name: "bitcoin-ubuntu"
+enable_cache: false
+suites:
+- "trusty"
+architectures:
+- "amd64"
+packages:
+- "bash-completion"
+- "debhelper"
+- "devscripts"
+- "dh-systemd"
+- "dput"
+remotes:
+- "url": "https://github.com/bitcoin/bitcoin.git"
+  "dir": "bitcoin"
+- "url": "https://github.com/bitcoin-core/packaging.git"
+  "dir": "packaging"
+files:
+- "ppa.secretkey"
+script: |
+
+  # FIXME: Change this to use release tarball? PROBLEM: it is missing contrib/debian/
+  export DEBFULLNAME="Luke Dashjr"
+  export DEBEMAIL="luke-jr+PPA@utopios.org"
+  PPA="ppa:luke-jr/bitcoincore"
+  GIT_DESCRIBE=$(cd bitcoin && git describe --tags)
+  [[ "$GIT_DESCRIBE" =~ ^v[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+(\.[[:digit:]]+)?$ ]]
+  VERSION="${GIT_DESCRIBE:1}"
+  DISTROS='eoan disco bionic xenial trusty'
+  PKGREV=1
+  
+  gpg --import <ppa.secretkey
+  cd bitcoin
+  git archive --format tar --prefix=bitcoin/ HEAD | xz -9 >"../bitcoin_${VERSION}.orig.tar.xz"
+  cd ..
+  rm -r bitcoin
+  tar -xpf "bitcoin_${VERSION}.orig.tar.xz"
+  mv packaging/debian bitcoin/
+  mv bitcoin initial
+  uploadparam='-sa'  # -sa
+  for DISTRO in ${DISTROS}; do
+    cp -a initial bitcoin
+    cd bitcoin
+    dch -b -v "${VERSION}-${DISTRO}${PKGREV}" 'PPA'
+    EDITOR=true dch --release --distribution "${DISTRO}" --no-force-save-on-release
+    dpkg-buildpackage -S "${uploadparam}" -d -k"${DEBEMAIL}"
+    cd ..
+    dput "${PPA}" *.changes
+    rm -r *.changes bitcoin
+    uploadparam='-sd'
+  done
