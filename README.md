@@ -11,6 +11,7 @@ In addition, this repository contains packaging metadata for package managers ru
 * [Snappy](/snap)
 * [Debian](/debian)
 
+A spec file for flathub is maintained under their organization: https://github.com/flathub/org.bitcoincore.bitcoin-qt
 
 An RPM spec file was removed in commit fa7c698cb24bab350b40ee2d825c443dabdd9633, because is was unmaintained and
 outdated.
