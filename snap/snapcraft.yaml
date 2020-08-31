@@ -14,7 +14,7 @@ confinement: strict
 apps:
   daemon:
     command: bitcoind
-    plugs: [removable-media, network, network-bind]
+    plugs: [home, removable-media, network, network-bind]
     environment:
       # Override HOME so the datadir is located at
       # ~/snap/bitcoin-core/common/.bitcoin/ instead of
@@ -24,13 +24,13 @@ apps:
       HOME: $SNAP_USER_COMMON
   qt:
     command: desktop-launch bitcoin-qt
-    plugs: [removable-media, network, network-bind, desktop, x11]
+    plugs: [home, removable-media, network, network-bind, desktop, x11]
     environment:
       HOME: $SNAP_USER_COMMON
       DISABLE_WAYLAND: 1
   cli:
     command: bitcoin-cli
-    plugs: [removable-media, network]
+    plugs: [home, removable-media, network]
     environment:
       HOME: $SNAP_USER_COMMON
 
