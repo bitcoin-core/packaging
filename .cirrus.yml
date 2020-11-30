@@ -1,0 +1,15 @@
+task:
+  container:
+    image: ubuntu:16.04
+    cpu: 2
+    memory: 4G
+  timeout_in: 20m
+  env:
+    DOCKER_PACKAGES: "snapcraft"
+  install_packages_script:
+    - apt-get update
+    - apt-get install --no-install-recommends --no-upgrade -qq $DOCKER_PACKAGES
+  snapcraft_pull_script:
+    - snapcraft pull
+  ci_script:
+    - snapcraft
