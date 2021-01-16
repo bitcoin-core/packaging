@@ -1,5 +1,5 @@
 name: bitcoin-core
-version: 0.20.1
+version: 0.21.0
 summary:   peer-to-peer network based digital currency
 description: |
   Bitcoin is a free open source peer-to-peer electronic cash system that
@@ -42,7 +42,7 @@ parts:
       wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/SHA256SUMS.asc
       wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
       wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
-      echo "b5c04fe37b40119bdc2d329b9c8fb9c0b402a10388fd0837d1a30fb0cd99b344  SHA256SUMS.asc" | sha256sum --check
+      echo "46200ac0d2852de28dbe628c4ab15cd330542bfe717b9d4c9c442838c22aa401  SHA256SUMS.asc" | sha256sum --check
       sha256sum --ignore-missing --check SHA256SUMS.asc
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
