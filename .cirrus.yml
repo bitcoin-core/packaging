@@ -1,8 +1,9 @@
 task:
+  use_compute_credits: true
   container:
     image: ubuntu:16.04
-    cpu: 2
-    memory: 4G
+    cpu: 1
+    memory: 2G
   timeout_in: 20m
   env:
     DOCKER_PACKAGES: "snapcraft"

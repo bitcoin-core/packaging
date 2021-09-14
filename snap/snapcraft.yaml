@@ -1,5 +1,5 @@
 name: bitcoin-core
-version: 0.21.1
+version: 22.0
 summary:   peer-to-peer network based digital currency
 description: |
   Bitcoin is a free open source peer-to-peer electronic cash system that
@@ -39,11 +39,11 @@ parts:
     plugin: nil
     override-build: | 
       env | grep SNAP
-      wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/SHA256SUMS.asc
+      wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/SHA256SUMS
       wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
       wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
-      echo "1f7747871fe5374a172bac118d5ffd60839055b12e85468eb2120b84b2909f4a  SHA256SUMS.asc" | sha256sum --check
-      sha256sum --ignore-missing --check SHA256SUMS.asc
+      echo "f7ba5604241732d0ec331df23c7a5f2fba3db450685e8d4aa20329378dc7d978  SHA256SUMS" | sha256sum --check
+      sha256sum --ignore-missing --check SHA256SUMS
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
       echo "Running tests ..."
