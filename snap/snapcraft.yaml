@@ -34,6 +34,19 @@ apps:
     plugs: [home, removable-media, network]
     environment:
       HOME: $SNAP_USER_COMMON
+  tx:
+    command: bitcoin-tx
+    environment:
+      HOME: $SNAP_USER_COMMON
+  wallet:
+    command: bitcoin-wallet
+    plugs: [home, removable-media]
+    environment:
+      HOME: $SNAP_USER_COMMON
+  util:
+    command: bitcoin-util
+    environment:
+      HOME: $SNAP_USER_COMMON
 
 parts:
   # Needed to supply desktop-launch
@@ -82,6 +95,9 @@ parts:
       install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoind
       install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-qt
       install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-cli
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-tx
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-wallet
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-util
       wget https://raw.githubusercontent.com/bitcoin/bitcoin/v${SNAPCRAFT_PROJECT_VERSION}/share/pixmaps/bitcoin128.png
       install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps bitcoin128.png
     build-packages:
