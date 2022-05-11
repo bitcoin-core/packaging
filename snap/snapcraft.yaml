@@ -1,12 +1,10 @@
 name: bitcoin-core
 version: '22.0'
-summary:   peer-to-peer network based digital currency
+summary: Fully validating Bitcoin peer-to-peer network node, wallet and GUI
 description: |
-  Bitcoin is a free open source peer-to-peer electronic cash system that
-  is completely decentralized, without the need for a central server or
-  trusted parties.  Users hold the crypto keys to their own money and
-  transact directly with each other, with the help of a P2P network to
-  check for double-spending.
+  Bitcoin Core connects to the Bitcoin peer-to-peer network to download and
+  fully validate blocks and transactions. It also includes a wallet and
+  graphical user interface.
 
 grade: stable
 confinement: strict
