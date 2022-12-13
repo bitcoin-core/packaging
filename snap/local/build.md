@@ -3,7 +3,7 @@
 - Push the latest version to `main` (if applicable), e.g. https://github.com/bitcoin-core/packaging/pull/156
 
 - Create a new branch for the major release "VV.x" from `main` (used to build the snap package) and request the
-  track (if applicable), e.g. https://forum.snapcraft.io/t/track-request-for-bitcoin-core-snap/10112/7
+  track (if applicable), e.g. https://forum.snapcraft.io/t/track-request-for-bitcoin-core-snap-24-x/33072
 
 - Notify MarcoFalke so that he can start building the snap package
 
