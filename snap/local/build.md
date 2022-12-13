@@ -15,8 +15,7 @@
   - Leave "automatically build when branch changes" unticked
   - Tick "automatically upload to store"
   - Put "bitcoin-core" in the registered store package name field
-  - Tick the "edge" box
-  - Put "VV.x" in the track field
+  - Create a channel with "VV.x" as track, "Edge" as risk
   - Click "create snap package"
   - Click "Request builds" for every new release on this branch (after updating the snapcraft.yml in the branch to reflect the latest guix results)
   - Promote release on https://snapcraft.io/bitcoin-core/releases if it passes sanity checks
