@@ -1,12 +1,10 @@
 name: bitcoin-core
-version: '22.0'
-summary:   peer-to-peer network based digital currency
+version: '22.1'
+summary: Fully validating Bitcoin peer-to-peer network node, wallet and GUI
 description: |
-  Bitcoin is a free open source peer-to-peer electronic cash system that
-  is completely decentralized, without the need for a central server or
-  trusted parties.  Users hold the crypto keys to their own money and
-  transact directly with each other, with the help of a P2P network to
-  check for double-spending.
+  Bitcoin Core connects to the Bitcoin peer-to-peer network to download and
+  fully validate blocks and transactions. It also includes a wallet and
+  graphical user interface.
 
 grade: stable
 confinement: strict
@@ -86,7 +84,7 @@ parts:
       wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/SHA256SUMS
       wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
       wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
-      echo "f7ba5604241732d0ec331df23c7a5f2fba3db450685e8d4aa20329378dc7d978  SHA256SUMS" | sha256sum --check
+      echo "dfbea67ef01746c18bd310bce1f569bf1a4502059a84a71b9a2a2d2c177704d1  SHA256SUMS" | sha256sum --check
       sha256sum --ignore-missing --check SHA256SUMS
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
