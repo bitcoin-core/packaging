@@ -1,11 +1,11 @@
 # Build the snap for Snapcraft via Launchpad
 
-- Push the latest version to `main` (if applicable), e.g. https://github.com/bitcoin-core/packaging/pull/156
+- Push the latest version to `main` (if applicable), e.g. https://github.com/bitcoin-core/packaging/pull/168
 
 - Create a new branch for the major release "VV.x" from `main` (used to build the snap package) and request the
   track (if applicable), e.g. https://forum.snapcraft.io/t/track-request-for-bitcoin-core-snap-24-x/33072
 
-- Notify MarcoFalke so that he can start building the snap package
+- Use `bitcoin-core` on launchpad so that launchpad can start building the snap package
 
   - https://code.launchpad.net/~bitcoin-core/bitcoin-core-snap/+git/packaging (Click "Import Now" to fetch the branch)
   - https://code.launchpad.net/~bitcoin-core/bitcoin-core-snap/+git/packaging/+ref/VV.x (Click "Create snap package")
