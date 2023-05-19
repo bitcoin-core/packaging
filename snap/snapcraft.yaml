@@ -1,5 +1,5 @@
 name: bitcoin-core
-version: '24.0.1'
+version: '24.1'
 summary: Fully validating Bitcoin peer-to-peer network node, wallet and GUI
 description: |
   Bitcoin Core connects to the Bitcoin peer-to-peer network to download and
