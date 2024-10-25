@@ -7,7 +7,8 @@ task:
     memory: 2G
   timeout_in: 20m
   snapcraft_pull_script:
-    - snap install snapcraft multipass --classic
+    - snap install snapcraft --classic
+    - snap install multipass
     - snapcraft pull
   ci_script:
     - snapcraft
