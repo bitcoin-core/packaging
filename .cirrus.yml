@@ -6,11 +6,8 @@ task:
     cpu: 1
     memory: 2G
   timeout_in: 20m
-  install_packages_script:
-    - apt-get update
-    - apt-get install snapd
   snapcraft_pull_script:
-    - snap install snapcraft multipass
+    - snap install snapcraft multipass --classic
     - snapcraft pull
   ci_script:
     - snapcraft
