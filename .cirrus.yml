@@ -2,7 +2,7 @@ task:
   use_compute_credits: true
   compute_engine_instance:  # https://cirrus-ci.org/guide/custom-vms/#custom-compute-engine-vms
     image_project: ubuntu-os-cloud
-    image: family/ubuntu-2004-lts  # https://cloud.google.com/compute/docs/images/os-details#ubuntu_lts
+    image: family/ubuntu-2404-lts  # https://cloud.google.com/compute/docs/images/os-details#ubuntu_lts
     cpu: 1
     memory: 2G
   timeout_in: 20m
@@ -12,6 +12,7 @@ task:
     - apt-get update
     - apt-get install --no-install-recommends --no-upgrade -qq $DOCKER_PACKAGES
   snapcraft_pull_script:
+    - snap install multipass
     - snapcraft pull
   ci_script:
     - snapcraft
