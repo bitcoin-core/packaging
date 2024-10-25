@@ -5,6 +5,7 @@ task:
     image: family/ubuntu-2404-lts-amd64  # https://cloud.google.com/compute/docs/images/os-details#ubuntu_lts
     nested_virtualization: true
     cpu: 4  # 1 is enough, but nested_virtualization machines have at least 4
+    memory: 2G
   timeout_in: 20m
   snapcraft_pull_script:
     - snap install snapcraft --classic
