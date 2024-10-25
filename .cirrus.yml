@@ -3,6 +3,7 @@ task:
   compute_engine_instance:  # https://cirrus-ci.org/guide/custom-vms/#custom-compute-engine-vms
     image_project: ubuntu-os-cloud
     image: family/ubuntu-2404-lts-amd64  # https://cloud.google.com/compute/docs/images/os-details#ubuntu_lts
+    nested_virtualization: true
     cpu: 1
     memory: 2G
   timeout_in: 20m
