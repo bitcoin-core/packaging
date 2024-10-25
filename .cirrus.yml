@@ -1,4 +1,4 @@
-task: #bla
+task:
   use_compute_credits: true
   compute_engine_instance:  # https://cirrus-ci.org/guide/custom-vms/#custom-compute-engine-vms
     image_project: ubuntu-os-cloud
