@@ -1,16 +1,15 @@
 task:
   use_compute_credits: true
   container:
-    image: ubuntu:20.04
+    image: ubuntu:18.04
     cpu: 1
     memory: 2G
   timeout_in: 20m
+  env:
+    DOCKER_PACKAGES: "snapcraft"
   install_packages_script:
-    - apt update
-    - apt install -y snapd 
-    - service snapd start
-    - systemctl start snapd.service
-    - snap install snapcraft 
+    - apt-get update 
+    - apt-get install --no-install-recommends --no-upgrade -qq $DOCKER_PACKAGES
   snapcraft_pull_script:
     - snapcraft pull
   ci_script:
