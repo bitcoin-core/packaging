@@ -5,11 +5,8 @@ task:
     cpu: 1
     memory: 2G
   timeout_in: 20m
-  env:
-    DOCKER_PACKAGES: "snapcraft"
   install_packages_script:
-    - apt-get update
-    - apt-get install --no-install-recommends --no-upgrade -qq $DOCKER_PACKAGES
+    - snap install snapcraft 
   snapcraft_pull_script:
     - snapcraft pull
   ci_script:
