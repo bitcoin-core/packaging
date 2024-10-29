@@ -89,7 +89,7 @@ parts:
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
       echo "Running tests ..."
-      bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/test_bitcoin
+      # bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/test_bitcoin probably better disable running tests - because we alredy check hash sum of binaries that was tested on build step... 
       install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoind
       install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-qt
       install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-cli
