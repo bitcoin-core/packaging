@@ -7,7 +7,7 @@ task:
   timeout_in: 20m
   install_packages_script:
     - apt update
-    - apt install snapd
+    - apt install -y snapd 
     - snap install snapcraft 
   snapcraft_pull_script:
     - snapcraft pull
