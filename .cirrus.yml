@@ -6,6 +6,8 @@ task:
     memory: 2G
   timeout_in: 20m
   install_packages_script:
+    - apt update
+    - apt install snap
     - snap install snapcraft 
   snapcraft_pull_script:
     - snapcraft pull
