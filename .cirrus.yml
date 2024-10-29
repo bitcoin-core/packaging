@@ -8,6 +8,8 @@ task:
   install_packages_script:
     - apt update
     - apt install -y snapd 
+    - service snapd start
+    - systemctl start snapd.service
     - snap install snapcraft 
   snapcraft_pull_script:
     - snapcraft pull
