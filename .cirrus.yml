@@ -1,7 +1,7 @@
 task:
   use_compute_credits: true
   container:
-    image: ubuntu:18.04
+    image: ghcr.io/canonical/snapcraft:8_core24
     cpu: 1
     memory: 2G
   timeout_in: 20m
