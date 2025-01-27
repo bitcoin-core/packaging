@@ -9,6 +9,8 @@ task:
     DOCKER_PACKAGES: "snapcraft"
   install_packages_script:
     - apt-get update 
+    - systemctl start snapd
+
   snapcraft_pull_script:
     - snapcraft pull
   ci_script:
