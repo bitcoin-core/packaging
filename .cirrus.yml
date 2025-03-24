@@ -10,5 +10,6 @@ task:
   snapcraft_install_script:
     - snap install snapcraft --classic
     - snap install lxd
+    - /snap/bin/lxd init --auto
   ci_script:
     - snapcraft --use-lxd
