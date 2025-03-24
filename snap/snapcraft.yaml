@@ -12,7 +12,7 @@ base: core20
 
 apps:
   daemon:
-    command: bitcoind
+    command: bin/bitcoind
     plugs: [home, removable-media, network, network-bind]
     environment:
       # Override HOME so the datadir is located at
@@ -22,27 +22,27 @@ apps:
       # https://docs.snapcraft.io/environment-variables/7983
       HOME: $SNAP_USER_COMMON
   qt:
-    command: desktop-launch bitcoin-qt
+    command: desktop-launch bin/bitcoin-qt
     plugs: [home, removable-media, network, network-bind, desktop, x11, unity7]
     environment:
       HOME: $SNAP_USER_COMMON
       DISABLE_WAYLAND: 1
   cli:
-    command: bitcoin-cli
+    command: bin/bitcoin-cli
     plugs: [home, removable-media, network]
     environment:
       HOME: $SNAP_USER_COMMON
   tx:
-    command: bitcoin-tx
+    command: bin/bitcoin-tx
     environment:
       HOME: $SNAP_USER_COMMON
   wallet:
-    command: bitcoin-wallet
+    command: bin/bitcoin-wallet
     plugs: [home, removable-media]
     environment:
       HOME: $SNAP_USER_COMMON
   util:
-    command: bitcoin-util
+    command: bin/bitcoin-util
     environment:
       HOME: $SNAP_USER_COMMON
 
