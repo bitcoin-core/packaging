@@ -7,9 +7,8 @@ task:
     cpu: 4  # 1 is enough, but nested_virtualization machines have at least 4
     memory: 2G
   timeout_in: 20m
-  snapcraft_pull_script:
+  snapcraft_install_script:
     - snap install snapcraft --classic
-    - snap install multipass
-    - snapcraft pull
+    - snap install lxd
   ci_script:
-    - snapcraft
+    - snapcraft --use-lxd
