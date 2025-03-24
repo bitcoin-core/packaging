@@ -1,16 +1,16 @@
 task:
   use_compute_credits: true
-  container:
-    image: ubuntu:18.04
+  compute_engine_instance:  # https://cirrus-ci.org/guide/custom-vms/#custom-compute-engine-vms
+    image_project: ubuntu-os-cloud
+    image: family/ubuntu-2404-lts-amd64  # https://cloud.google.com/compute/docs/images/os-details#ubuntu_lts
     cpu: 1
     memory: 2G
   timeout_in: 20m
-  env:
-    DOCKER_PACKAGES: "snapcraft"
   install_packages_script:
-    - apt-get update
-    - apt-get install --no-install-recommends --no-upgrade -qq $DOCKER_PACKAGES
+    - snap install snapcraft --classic
+    - snap install lxd
+    - /snap/bin/lxd init --auto
   snapcraft_pull_script:
-    - snapcraft pull
+    - snapcraft pull --use-lxd
   ci_script:
-    - snapcraft
+    - snapcraft --use-lxd
