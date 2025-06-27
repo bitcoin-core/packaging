@@ -1,5 +1,5 @@
 name: bitcoin-core
-version: '28.1'
+version: '28.2'
 summary: Fully validating Bitcoin peer-to-peer network node, wallet and GUI
 description: |
   Bitcoin Core connects to the Bitcoin peer-to-peer network to download and
@@ -84,7 +84,7 @@ parts:
       wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/SHA256SUMS
       wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
       wget https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
-      echo "5411f333fce232f4072e6440cc507e36a0305861414740fbbd5f5abf569c3cf4  SHA256SUMS" | sha256sum --check
+      echo "08e6e22e0488e5342eae36858e7a74b54e0e5f963a993082d5b4a2e011ac47e9  SHA256SUMS" | sha256sum --check
       sha256sum --ignore-missing --check SHA256SUMS
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
