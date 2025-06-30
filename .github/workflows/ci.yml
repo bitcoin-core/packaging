@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.event_name != 'pull_request' && github.run_id || github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    # Enforce fail-fast behavior for all platforms.
+    # See: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#exit-codes-and-error-action-preference
+    shell: bash
+
+jobs:
+  guix-windows:
+    name: 'Windows, snap-tag guix'
+    runs-on: windows-2022
+
+    env:
+      PYTHONUTF8: 1
+      TEST_RUNNER_TIMEOUT_FACTOR: 40
+
+    steps:
+      - name: Checkout bitcoin-core packaging
+        uses: actions/checkout@v4
+        with:
+          path: packaging-repo
+
+      - name: Extract version from snapcraft.yaml
+        run: |
+          snap_version=$(grep "version:" packaging-repo/snap/snapcraft.yaml | awk -F"'" '{print $2}')
+          echo "TAG_VERSION=$snap_version" >> $GITHUB_ENV
+
+      - name: Checkout bitcoin-core
+        uses: actions/checkout@v4
+        with:
+          repository: bitcoin/bitcoin
+          ref: refs/tags/v${{ env.TAG_VERSION }}
+
+      - name: Download Bitcoin Core Windows zip
+        run: |
+          curl -LO "https://bitcoincore.org/bin/bitcoin-core-${{ env.TAG_VERSION }}/bitcoin-${{ env.TAG_VERSION }}-win64.zip"
+          unzip bitcoin-${{ env.TAG_VERSION }}-win64.zip -d ./unzipped
+          mv ./unzipped/bitcoin-${{ env.TAG_VERSION }}/bin ./
+
+      - name: Run bitcoind.exe
+        run: ./bin/bitcoind.exe -version
+
+      - name: Find mt.exe tool
+        shell: pwsh
+        run: |
+          $sdk_dir = (Get-ItemProperty 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows Kits\Installed Roots' -Name KitsRoot10).KitsRoot10
+          $sdk_latest = (Get-ChildItem "$sdk_dir\bin" -Directory | Where-Object { $_.Name -match '^\d+\.\d+\.\d+\.\d+$' } | Sort-Object Name -Descending | Select-Object -First 1).Name
+          "MT_EXE=${sdk_dir}bin\${sdk_latest}\x64\mt.exe" >> $env:GITHUB_ENV
+
+      - name: Get bitcoind manifest
+        shell: pwsh
+        run: |
+          & $env:MT_EXE -nologo -inputresource:bin\bitcoind.exe -out:bitcoind.manifest
+          Get-Content bitcoind.manifest
+          & $env:MT_EXE -nologo -inputresource:bin\bitcoind.exe -validate_manifest
+
+      - name: Run unit tests
+        # Can't use ctest here like other jobs as we don't have a CMake build tree.
+        run: |
+          ./bin/test_bitcoin.exe -l test_suite
+          ./src/secp256k1/bin/exhaustive_tests.exe
+          ./src/secp256k1/bin/noverify_tests.exe
+          ./src/secp256k1/bin/tests.exe
+          ./src/univalue/object.exe
+          ./src/univalue/unitester.exe
+
+      - name: Run benchmarks
+        run: ./bin/bench_bitcoin.exe -sanity-check
+
+      - name: Adjust paths in test/config.ini
+        shell: pwsh
+        run: |
+          (Get-Content "test/config.ini") -replace '(?<=^SRCDIR=).*', '${{ github.workspace }}' -replace '(?<=^BUILDDIR=).*', '${{ github.workspace }}' -replace '(?<=^RPCAUTH=).*', '${{ github.workspace }}/share/rpcauth/rpcauth.py' | Set-Content "test/config.ini"
+          Get-Content "test/config.ini"
+
+      - name: Run util tests
+        run: py -3 test/util/test_runner.py
+
+      - name: Run rpcauth test
+        run: py -3 test/util/rpcauth-test.py
+
+      - name: Run functional tests
+        env:
+          # TODO: Fix the excluded test and re-enable it.
+          EXCLUDE: '--exclude wallet_multiwallet.py'
+          TEST_RUNNER_EXTRA: ${{ github.event_name != 'pull_request' && '--extended' || '' }}
+        run: py -3 test/functional/test_runner.py --jobs $NUMBER_OF_PROCESSORS --ci --quiet --tmpdirprefix="$RUNNER_TEMP" --combinedlogslen=99999999 --timeout-factor=$TEST_RUNNER_TIMEOUT_FACTOR $EXCLUDE $TEST_RUNNER_EXTRA
