@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Snapcraft and LXD
+        run: |
+          sudo snap install snapcraft --classic
+          sudo snap install lxd
+          sudo /snap/bin/lxd init --auto
+      - name: Pull Snap dependencies
+        run: sudo snapcraft pull --use-lxd
+      - name: Build Snap
+        run: sudo snapcraft --use-lxd
