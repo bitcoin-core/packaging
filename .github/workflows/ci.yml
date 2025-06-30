@@ -9,6 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
+      - name: Disable IPv6 system-wide
+        run: |
+          echo "net.ipv6.conf.all.disable_ipv6 = 1" | sudo tee /etc/sysctl.d/99-disable-ipv6.conf
+          echo "net.ipv6.conf.default.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.d/99-disable-ipv6.conf
+          echo "net.ipv6.conf.lo.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.d/99-disable-ipv6.conf
+          # Apply all sysctl settings from /etc/sysctl.d and /etc/sysctl.conf
+          sudo sysctl --system
+          sudo systemctl restart systemd-networkd
       - uses: actions/checkout@v4
       - name: Install Snapcraft and LXD
         run: |
