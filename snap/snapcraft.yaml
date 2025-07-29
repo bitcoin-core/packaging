@@ -23,9 +23,13 @@ apps:
       HOME: $SNAP_USER_COMMON
   qt:
     command: bin/bitcoin-qt
+    extensions: [kde-neon]
     plugs: [home, removable-media, network, network-bind, desktop, x11, unity7]
     environment:
       HOME: $SNAP_USER_COMMON
+      # https://forum.snapcraft.io/t/kde-neon-6-extension-snap-qt-qpa-platform-overwritten/46054
+      WAYLAND_DISPLAY: unset
+      QT_QPA_PLATFORM: xcb
   cli:
     command: bin/bitcoin-cli
     plugs: [home, removable-media, network]
