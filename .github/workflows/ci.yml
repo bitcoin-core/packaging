@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.event_name != 'pull_request' && github.run_id || github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    # Enforce fail-fast behavior for all platforms.
+    # See: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#exit-codes-and-error-action-preference
+    shell: bash
+
+jobs:
+  guix-windows:
+    name: 'Windows, snap-tag guix'
+    runs-on: windows-2022
+
+    env:
+      PYTHONUTF8: 1
+      TEST_RUNNER_TIMEOUT_FACTOR: 40
+
+    steps:
+      - name: Checkout bitcoin-core packaging
+        uses: actions/checkout@v4
+        with:
+          path: packaging-repo
+
+      - name: Extract version from snapcraft.yaml
+        run: |
+          snap_version=$(grep "version:" packaging-repo/snap/snapcraft.yaml | awk -F"'" '{print $2}')
+          echo "TAG_VERSION=$snap_version" >> $GITHUB_ENV
+
+      - name: Checkout bitcoin-core
+        uses: actions/checkout@v4
+        with:
+          repository: bitcoin/bitcoin
+          ref: refs/tags/v${{ env.TAG_VERSION }}
+
+      - name: Download Bitcoin Core Windows zip
+        run: |
+          curl -LO "https://bitcoincore.org/bin/bitcoin-core-${{ env.TAG_VERSION }}/bitcoin-${{ env.TAG_VERSION }}-win64.zip"
+          unzip bitcoin-${{ env.TAG_VERSION }}-win64.zip -d ./unzipped
+          mv ./unzipped/bitcoin-${{ env.TAG_VERSION }}/bin ./
+
+      - name: Run bitcoind.exe
+        run: ./bin/bitcoind.exe -version
+
+      - name: Run unit tests
+        # Can't use ctest here like other jobs as we don't have a CMake build tree.
+        run: |
+          ./bin/test_bitcoin.exe -l test_suite
