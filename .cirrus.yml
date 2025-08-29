@@ -14,4 +14,4 @@ task:
   snapcraft_pull_script:
     - snapcraft pull --use-lxd
   ci_script:
-    - snapcraft --use-lxd
+    - snapcraft pack --use-lxd
