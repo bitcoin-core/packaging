@@ -5,6 +5,7 @@ task:
     image: family/ubuntu-2404-lts-amd64  # https://cloud.google.com/compute/docs/images/os-details#ubuntu_lts
     cpu: 1
     memory: 2G
+    disk: 30  # Required for snapcraft pull
   timeout_in: 20m
   install_packages_script:
     - snap install snapcraft --classic
@@ -13,4 +14,4 @@ task:
   snapcraft_pull_script:
     - snapcraft pull --use-lxd
   ci_script:
-    - snapcraft --use-lxd
+    - snapcraft pack --use-lxd
