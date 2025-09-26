@@ -9,6 +9,17 @@ description: |
 grade: stable
 confinement: strict
 base: core22
+architectures:
+  - build-on: [amd64, arm64]
+    build-for: [amd64]
+  - build-on: [amd64, arm64]
+    build-for: [arm64]
+  - build-on: [amd64, arm64, armhf]
+    build-for: [armhf]
+  - build-on: [amd64, arm64, ppc64el]
+    build-for: [ppc64el]
+  - build-on: [amd64, arm64, riscv64]
+    build-for: [riscv64]
 
 apps:
   daemon:
@@ -62,8 +73,12 @@ parts:
       sha256sum --ignore-missing --check SHA256SUMS
       tar -xvf bitcoin-${bitcoin_core_version}-${CRAFT_ARCH_TRIPLET_BUILD_FOR}.tar.gz
       tar -xvf bitcoin-${bitcoin_core_version}.tar.gz
-      echo "Running tests ..."
-      bitcoin-${bitcoin_core_version}/bin/test_bitcoin
+      if [ "$CRAFT_ARCH_TRIPLET_BUILD_ON" != "$CRAFT_ARCH_TRIPLET_BUILD_FOR" ]; then
+        echo "Skipping tests when cross-compiling."
+      else
+        echo "Running tests ..."
+        bitcoin-${bitcoin_core_version}/bin/test_bitcoin
+      fi
       install -m 0755 -D -t $CRAFT_PART_INSTALL/bin bitcoin-${bitcoin_core_version}/bin/bitcoind
       install -m 0755 -D -t $CRAFT_PART_INSTALL/bin bitcoin-${bitcoin_core_version}/bin/bitcoin-qt
       install -m 0755 -D -t $CRAFT_PART_INSTALL/bin bitcoin-${bitcoin_core_version}/bin/bitcoin-cli
