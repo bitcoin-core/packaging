@@ -82,21 +82,21 @@ parts:
       env | grep "CRAFT\|SNAP" | sort
       curl -LO https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/SHA256SUMS
       curl -LO https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
-      curl -LO https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
+      curl -LO https://bitcoincore.org/bin/bitcoin-core-${SNAPCRAFT_PROJECT_VERSION}/bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${CRAFT_ARCH_TRIPLET_BUILD_FOR}.tar.gz
       echo "94ec151f452a221393d08f6b02fb30baacbeb59f194611f49069e7f5509b46fe  SHA256SUMS" | sha256sum --check
       sha256sum --ignore-missing --check SHA256SUMS
-      tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${SNAPCRAFT_ARCH_TRIPLET}.tar.gz
+      tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}-${CRAFT_ARCH_TRIPLET_BUILD_FOR}.tar.gz
       tar -xvf bitcoin-${SNAPCRAFT_PROJECT_VERSION}.tar.gz
       echo "Running tests ..."
       bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/test_bitcoin
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoind
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-qt
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-cli
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-tx
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-wallet
-      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-util
+      install -m 0755 -D -t $CRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoind
+      install -m 0755 -D -t $CRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-qt
+      install -m 0755 -D -t $CRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-cli
+      install -m 0755 -D -t $CRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-tx
+      install -m 0755 -D -t $CRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-wallet
+      install -m 0755 -D -t $CRAFT_PART_INSTALL/bin bitcoin-${SNAPCRAFT_PROJECT_VERSION}/bin/bitcoin-util
       curl -LO https://raw.githubusercontent.com/bitcoin/bitcoin/v${SNAPCRAFT_PROJECT_VERSION}/share/pixmaps/bitcoin128.png
-      install -m 0644 -D -t $SNAPCRAFT_PART_INSTALL/share/pixmaps bitcoin128.png
+      install -m 0644 -D -t $CRAFT_PART_INSTALL/share/pixmaps bitcoin128.png
     build-packages:
       - curl
     after:
