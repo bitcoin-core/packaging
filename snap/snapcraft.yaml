@@ -50,7 +50,6 @@ parts:
   desktop-launch:
     source: ./snap/local/src
     plugin: make
-    make-parameters: ["FLAVOR=qt5"]
     build-packages:
       - build-essential
       - qtbase5-dev
