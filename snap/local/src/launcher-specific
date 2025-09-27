@@ -11,8 +11,6 @@ if [ "$USE_qt5" = true ]; then
   if [ -z "$QT_SELECT" ]; then
     export QT_SELECT=snappy-qt5
   fi
-else
-  export QT_SELECT=snappy-qt4
 fi
 
 # Removes Qt warning: Could not find a location
@@ -44,13 +42,6 @@ if [ "$USE_qt5" = true ]; then
       export QT_QPA_PLATFORMTHEME=appmenu-qt5
     fi
   fi
-
-else
-  [ "$wayland_available" = true ] && echo "Warning: Qt4 does not support Wayland!"
-  append_dir LD_LIBRARY_PATH $SNAP/usr/lib/$ARCH/qt4
-  export QT_PLUGIN_PATH=$SNAP/usr/lib/$ARCH/qt4/plugins
-  prepend_dir QML_IMPORT_PATH $SNAP/usr/lib/$ARCH/qt4/qml:$SNAP/lib/$ARCH
-  prepend_dir PATH $SNAP/usr/lib/$ARCH/qt4/bin
 fi
 
 # Use GTK styling for running under the GNOME desktop
