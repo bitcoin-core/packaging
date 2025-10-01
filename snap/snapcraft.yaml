@@ -47,20 +47,9 @@ apps:
       HOME: $SNAP_USER_COMMON
 
 parts:
-  # Needed to supply desktop-launch
-  # Paste from https://github.com/ubuntu/snapcraft-desktop-helpers/blob/master/snapcraft.yaml
-  # Boilerplate seems to be required according to https://bugs.launchpad.net/snapcraft/+bug/1800057
-  desktop-qt5:
-    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-    source-depth: 1
-    source-subdir: qt
-    source-commit: ec861254c2a1d2447b2c589446e6cdf04c75c260
+  desktop-launch:
+    source: ./snap/local/src
     plugin: make
-    make-parameters: ["FLAVOR=qt5"]
-    build-packages:
-      - build-essential
-      - qtbase5-dev
-      - dpkg-dev
     stage-packages:
       - libxkbcommon0
       - fonts-ubuntu
@@ -100,4 +89,4 @@ parts:
     build-packages:
       - curl
     after:
-      - desktop-qt5
+      - desktop-launch
