@@ -70,9 +70,9 @@ parts:
     override-build: |
       env | grep "CRAFT\|SNAP" | sort
       bitcoin_core_version=$(craftctl get version)
-      curl -LO https://bitcoincore.org/bin/bitcoin-core-${bitcoin_core_version}/SHA256SUMS
-      curl -LO https://bitcoincore.org/bin/bitcoin-core-${bitcoin_core_version}/bitcoin-${bitcoin_core_version}.tar.gz
-      curl -LO https://bitcoincore.org/bin/bitcoin-core-${bitcoin_core_version}/bitcoin-${bitcoin_core_version}-${CRAFT_ARCH_TRIPLET_BUILD_FOR}.tar.gz
+      curl --fail --location --remote-name https://bitcoincore.org/bin/bitcoin-core-${bitcoin_core_version}/SHA256SUMS
+      curl --fail --location --remote-name https://bitcoincore.org/bin/bitcoin-core-${bitcoin_core_version}/bitcoin-${bitcoin_core_version}.tar.gz
+      curl --fail --location --remote-name https://bitcoincore.org/bin/bitcoin-core-${bitcoin_core_version}/bitcoin-${bitcoin_core_version}-${CRAFT_ARCH_TRIPLET_BUILD_FOR}.tar.gz
       echo "11113f40ed9e963fbe98e37751818929a2dd53cea0588452fc0b9fbb24bf2405  SHA256SUMS" | sha256sum --check
       sha256sum --ignore-missing --check SHA256SUMS
       tar -xvf bitcoin-${bitcoin_core_version}-${CRAFT_ARCH_TRIPLET_BUILD_FOR}.tar.gz
@@ -85,7 +85,7 @@ parts:
       install -m 0755 -D -t $CRAFT_PART_INSTALL/bin bitcoin-${bitcoin_core_version}/bin/bitcoin-tx
       install -m 0755 -D -t $CRAFT_PART_INSTALL/bin bitcoin-${bitcoin_core_version}/bin/bitcoin-wallet
       install -m 0755 -D -t $CRAFT_PART_INSTALL/bin bitcoin-${bitcoin_core_version}/bin/bitcoin-util
-      curl -LO https://raw.githubusercontent.com/bitcoin/bitcoin/v${bitcoin_core_version}/share/pixmaps/bitcoin128.png
+      curl --fail --location --remote-name https://raw.githubusercontent.com/bitcoin/bitcoin/v${bitcoin_core_version}/share/pixmaps/bitcoin128.png
       install -m 0644 -D -t $CRAFT_PART_INSTALL/share/pixmaps bitcoin128.png
     build-packages:
       - curl
