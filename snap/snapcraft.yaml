@@ -11,6 +11,17 @@ confinement: strict
 base: core22
 
 apps:
+  service:
+    command: bitcoind -startupnotify='systemd-notify --ready' -shutdownnotify='systemd-notify --stopping'
+    daemon: notify
+    plugs: [home, removable-media, network, network-bind]
+    environment:
+      # Override HOME so the datadir is located at
+      # ~/snap/bitcoin-core/common/.bitcoin/ instead of
+      # ~/snap/bitcoin-core/current/.bitcoin/, and each new version of the
+      # snap won't have a different data directory:
+      # https://docs.snapcraft.io/environment-variables/7983
+      HOME: $SNAP_USER_COMMON
   daemon:
     command: bin/bitcoind
     plugs: [home, removable-media, network, network-bind]
