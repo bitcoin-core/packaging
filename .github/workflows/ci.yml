@@ -23,6 +23,6 @@ jobs:
           sudo snap install lxd
           sudo /snap/bin/lxd init --auto
       - name: Pull Snap dependencies
-        run: sudo snapcraft pull --use-lxd
+        run: sudo snapcraft pull --use-lxd --debug
       - name: Build Snap
-        run: sudo snapcraft pack --use-lxd
+        run: sudo snapcraft pack --use-lxd --debug
