@@ -1,5 +1,5 @@
 name: bitcoin-core
-version: '31.2'
+version: '31.3'
 summary: Fully validating Bitcoin peer-to-peer network node, wallet and GUI
 description: |
   Bitcoin Core connects to the Bitcoin peer-to-peer network to download and
@@ -73,7 +73,7 @@ parts:
       curl -LO https://bitcoincore.org/bin/bitcoin-core-${bitcoin_core_version}/SHA256SUMS
       curl -LO https://bitcoincore.org/bin/bitcoin-core-${bitcoin_core_version}/bitcoin-${bitcoin_core_version}.tar.gz
       curl -LO https://bitcoincore.org/bin/bitcoin-core-${bitcoin_core_version}/bitcoin-${bitcoin_core_version}-${CRAFT_ARCH_TRIPLET_BUILD_FOR}.tar.gz
-      echo "18c62c92217759b2c10f456b526a86022039ebb85b5a7b245e299edb3793c044  SHA256SUMS" | sha256sum --check
+      echo "fbd3d8b9ddbf89ab21ea1c27b4270d853afa4af44546f93c78e5af244430d2a6  SHA256SUMS" | sha256sum --check
       sha256sum --ignore-missing --check SHA256SUMS
       tar -xvf bitcoin-${bitcoin_core_version}-${CRAFT_ARCH_TRIPLET_BUILD_FOR}.tar.gz
       tar -xvf bitcoin-${bitcoin_core_version}.tar.gz
